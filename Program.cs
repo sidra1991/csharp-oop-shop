@@ -19,34 +19,86 @@ Console.WriteLine("Hello, World!");
 //Nella vostro programma principale, testate tutte le funzionalità della classe Prodotto.
 //BONUS: create un metodo che restituisca il codice con un pad left di 0 per arrivare a 8 caratteri (ad esempio codice 91 diventa 00000091, mentre codice 123445567 resta come è)
 //Buon lavoro!
-Prodotto Molletta = new Prodotto();
+Console.WriteLine("inserire un prezzo");
+int prezzo = Convert.ToInt32(Console.ReadLine());
 
-Console.WriteLine(Molletta.GetCodice());
+
+Console.WriteLine("inserire un nome prodotto");
+string nome = Console.ReadLine();
+
+Prodotto  prodotto = new Prodotto( prezzo, nome);
+
+
+
+
+Console.WriteLine(prodotto.GetCodice() + "codice prodotto" );
+Console.WriteLine(prodotto.prezzoConIva() + "prezzo con iva" );
+
+Console.WriteLine("nome esteso - " + prodotto.GetNomeCompleto());
+
+
+
 public class Prodotto
 {
-    private int codice;
+    private string codice;
     public string nome;
     public string descrizione;
-    public float prezzo;
+    public int prezzo;
     public int iva;
 
-    public Prodotto()
+    public Prodotto(int prezzo ,string nome)
     {
-       var Rand = new Random().Next(1,1000);
-       this.codice = Rand;
+       var Rand = new Random().Next(1,1000); 
+       string code = ""; 
+        if (Convert.ToString(Rand).Length < 8)
+        {
+            
+            for (int i = 0; i < 8; i++)
+            {
+                int razione = 8 - Convert.ToString(Rand).Length  ;
+                if ( i < razione)
+                {
+                    code = code + "0";
+                }else
+                {
+                    code = code + Convert.ToString(Rand);
+                    break;
+                }
+            }
+        } else
+        {
+          code = Convert.ToString(Rand);
+        }
+
+       this.codice = code;
+       this.prezzo = prezzo;
+       this.nome = nome;
+       this.iva = 12;
     }
 
-    public in prezzoScontato()
+    public int prezzoConIva()
     {
-
+        return prezzo + this.ivaProdotto();
     }
 
-    public int GetCodice()
+    public int ivaProdotto()
+    {
+        int percento = this.prezzo / 100;
+        int ivaTotale = this.iva * percento;
+
+        return ivaTotale;
+    }
+
+    
+
+    public string GetCodice()
     {
         return this.codice;
     }
+
+    public string GetNomeCompleto()
+    {
+        return this.nome + " " + this.codice;
+    }
 }
-
-
-
 
