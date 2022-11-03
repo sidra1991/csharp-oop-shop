@@ -106,11 +106,11 @@ Console.WriteLine("Hello, World!");
 
 Prodotto prodotto = new Prodotto();
 Console.WriteLine("inserire un prezzo");
-int prodotto.prezzo = Convert.ToInt32(Console.ReadLine());
+prodotto.Prezzo = Convert.ToInt32(Console.ReadLine());
 
 
 Console.WriteLine("inserire un nome prodotto");
-string nome = Console.ReadLine();
+prodotto.Nome = Console.ReadLine();
 
 
 
@@ -123,50 +123,50 @@ Console.WriteLine("nome esteso - " + prodotto.GetNomeCompleto());
 
 public class Prodotto
 {
-    private string codice
-    {
-        get { return this.codice; }
-        set
-        {
-            var Rand = new Random().Next(1, 1000);
-            string code = "";
-            if (Convert.ToString(Rand).Length < 8)
-            {
+    private string Codice {get;}
+    public string Nome { get; set; }
+    public string Descrizione {get; set; }
+    public int Prezzo { get; set; }
+    public int Iva { get; }
 
-                for (int i = 0; i < 8; i++)
+    public Prodotto()
+    {
+        this.Iva = 12;
+        var Rand = new Random().Next(1, 1000);
+        string code = "";
+        if (Convert.ToString(Rand).Length < 8)
+        {
+
+            for (int i = 0; i < 8; i++)
+            {
+                int razione = 8 - Convert.ToString(Rand).Length;
+                if (i < razione)
                 {
-                    int razione = 8 - Convert.ToString(Rand).Length;
-                    if (i < razione)
-                    {
-                        code = code + "0";
-                    }
-                    else
-                    {
-                        code = code + Convert.ToString(Rand);
-                        break;
-                    }
+                    code = code + "0";
+                }
+                else
+                {
+                    code = code + Convert.ToString(Rand);
+                    break;
                 }
             }
-            else
-            {
-                code = Convert.ToString(Rand);
-            }
         }
+        else
+        {
+            code = Convert.ToString(Rand);
+        }
+        this.Codice = code; 
     }
-    public string nome { get; set; }
-    public string descrizione {get; set; }
-    public int prezzo { get; set; }
-    public int iva { get { return this.iva; } set { this.iva = 12; } }
 
-    public int prezzoConIva()
+        public int prezzoConIva()
     {
-        return prezzo + this.ivaProdotto();
+        return Prezzo + this.ivaProdotto();
     }
 
     public int ivaProdotto()
     {
-        int percento = this.prezzo / 100;
-        int ivaTotale = this.iva * percento;
+        int percento = this.Prezzo / 100;
+        int ivaTotale = this.Iva * percento;
 
         return ivaTotale;
     }
@@ -175,12 +175,12 @@ public class Prodotto
 
     public string GetCodice()
     {
-        return this.codice;
+        return this.Codice;
     }
 
     public string GetNomeCompleto()
     {
-        return this.nome + " " + this.codice;
+        return this.Nome + " " + this.Codice;
     }
 }
 
